@@ -74,4 +74,4 @@ Desenvolvido por **Diogo Alcelino**.
 
 LinkedIn: *(www.linkedin.com/in/diogo-alcelino-959690212)*
 
-GitHub: https://github.com/Dioguis
+GitHub: https://github.com/dioguis
