@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BankFlow – Gestão de Contas Bancárias</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon"><i class="fa-solid fa-wave-square"></i></div>
+      <span class="logo-text">BankFlow</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-section="dashboard">
+        <i class="fa-solid fa-chart-pie"></i><span>Dashboard</span>
+      </a>
+      <a href="#" class="nav-item" data-section="cadastrar">
+        <i class="fa-solid fa-user-plus"></i><span>Cadastrar Cliente</span>
+      </a>
+      <a href="#" class="nav-item" data-section="consultar">
+        <i class="fa-solid fa-magnifying-glass"></i><span>Consultar Cliente</span>
+      </a>
+      <a href="#" class="nav-item" data-section="atualizar">
+        <i class="fa-solid fa-pen-to-square"></i><span>Atualizar Saldo</span>
+      </a>
+      <a href="#" class="nav-item" data-section="encerrar">
+        <i class="fa-solid fa-circle-xmark"></i><span>Encerrar Conta</span>
+      </a>
+      <a href="#" class="nav-item" data-section="listar">
+        <i class="fa-solid fa-table-list"></i><span>Listar Clientes</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="theme-toggle" id="themeToggle" title="Alternar tema">
+        <i class="fa-solid fa-moon" id="themeIcon"></i>
+        <span id="themeLabel">Tema Claro</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <div class="main-wrapper">
+
+    <!-- HEADER -->
+    <header class="topbar">
+      <button class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></button>
+      <div class="topbar-brand">
+        <i class="fa-solid fa-wave-square"></i>
+        <span>BankFlow</span>
+        <span class="topbar-sub">Sistema Bancário</span>
+      </div>
+      <div class="topbar-right">
+        <div class="datetime" id="datetime"></div>
+        <div class="avatar"><i class="fa-solid fa-user-tie"></i></div>
+      </div>
+    </header>
+
+    <!-- CONTENT AREA -->
+    <main class="content">
+
+      <!-- ============================
+           SECTION: DASHBOARD
+      ============================= -->
+      <section class="section active" id="section-dashboard">
+        <div class="section-header">
+          <h1>Dashboard</h1>
+          <p>Visão geral do sistema em tempo real</p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card" id="card-clientes">
+            <div class="stat-icon blue"><i class="fa-solid fa-users"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Total de Clientes</span>
+              <span class="stat-value" id="stat-total">0</span>
+            </div>
+          </div>
+          <div class="stat-card" id="card-ativas">
+            <div class="stat-icon green"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Contas Ativas</span>
+              <span class="stat-value" id="stat-ativas">0</span>
+            </div>
+          </div>
+          <div class="stat-card" id="card-inativas">
+            <div class="stat-icon red"><i class="fa-solid fa-circle-xmark"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Contas Encerradas</span>
+              <span class="stat-value" id="stat-inativas">0</span>
+            </div>
+          </div>
+          <div class="stat-card" id="card-saldo">
+            <div class="stat-icon gold"><i class="fa-solid fa-coins"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Saldo Total</span>
+              <span class="stat-value" id="stat-saldo">R$ 0,00</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-bottom">
+          <div class="chart-card">
+            <div class="card-title"><i class="fa-solid fa-chart-bar"></i> Distribuição de Saldos</div>
+            <div class="chart-wrap"><canvas id="balanceChart"></canvas></div>
+          </div>
+          <div class="recent-card">
+            <div class="card-title"><i class="fa-solid fa-clock-rotate-left"></i> Últimas Contas</div>
+            <div class="recent-list" id="recentList">
+              <div class="empty-state"><i class="fa-solid fa-inbox"></i><p>Nenhuma conta cadastrada</p></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================
+           SECTION: CADASTRAR
+      ============================= -->
+      <section class="section" id="section-cadastrar">
+        <div class="section-header">
+          <h1>Cadastrar Cliente</h1>
+          <p>Adicione um novo cliente ao sistema</p>
+        </div>
+        <div class="form-card">
+          <div class="form-group">
+            <label><i class="fa-solid fa-hashtag"></i> Número da Conta</label>
+            <input type="text" id="cad-conta" placeholder="Ex: 12345-6" autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label><i class="fa-solid fa-user"></i> Nome Completo</label>
+            <input type="text" id="cad-nome" placeholder="Nome do titular" autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label><i class="fa-solid fa-money-bill-wave"></i> Saldo Inicial (R$)</label>
+            <input type="number" id="cad-saldo" placeholder="0,00" min="0" step="0.01" />
+          </div>
+          <button class="btn btn-primary" id="btn-cadastrar">
+            <i class="fa-solid fa-user-plus"></i> Cadastrar Cliente
+          </button>
+        </div>
+      </section>
+
+      <!-- ============================
+           SECTION: CONSULTAR
+      ============================= -->
+      <section class="section" id="section-consultar">
+        <div class="section-header">
+          <h1>Consultar Cliente</h1>
+          <p>Busque informações de uma conta</p>
+        </div>
+        <div class="form-card">
+          <div class="form-group">
+            <label><i class="fa-solid fa-hashtag"></i> Número da Conta</label>
+            <input type="text" id="con-conta" placeholder="Ex: 12345-6" autocomplete="off" />
+          </div>
+          <button class="btn btn-primary" id="btn-consultar">
+            <i class="fa-solid fa-magnifying-glass"></i> Consultar
+          </button>
+        </div>
+        <div class="result-card hidden" id="con-result">
+          <div class="result-header">
+            <div class="result-avatar"><i class="fa-solid fa-user-tie"></i></div>
+            <div class="result-info">
+              <h2 id="con-nome-result">—</h2>
+              <span id="con-status-result" class="badge">—</span>
+            </div>
+          </div>
+          <div class="result-details">
+            <div class="detail-item">
+              <span class="detail-label">Conta</span>
+              <span class="detail-val" id="con-conta-result">—</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Saldo</span>
+              <span class="detail-val green-text" id="con-saldo-result">—</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================
+           SECTION: ATUALIZAR
+      ============================= -->
+      <section class="section" id="section-atualizar">
+        <div class="section-header">
+          <h1>Atualizar Saldo</h1>
+          <p>Modifique o saldo de uma conta ativa</p>
+        </div>
+        <div class="form-card">
+          <div class="form-group">
+            <label><i class="fa-solid fa-hashtag"></i> Número da Conta</label>
+            <input type="text" id="atu-conta" placeholder="Ex: 12345-6" autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label><i class="fa-solid fa-money-bill-wave"></i> Novo Saldo (R$)</label>
+            <input type="number" id="atu-saldo" placeholder="0,00" min="0" step="0.01" />
+          </div>
+          <button class="btn btn-primary" id="btn-atualizar">
+            <i class="fa-solid fa-pen-to-square"></i> Atualizar Saldo
+          </button>
+        </div>
+      </section>
+
+      <!-- ============================
+           SECTION: ENCERRAR
+      ============================= -->
+      <section class="section" id="section-encerrar">
+        <div class="section-header">
+          <h1>Encerrar Conta</h1>
+          <p>Desative uma conta bancária do sistema</p>
+        </div>
+        <div class="form-card">
+          <div class="alert-box">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            Esta operação é irreversível. A conta será marcada como <strong>Inativa</strong>.
+          </div>
+          <div class="form-group">
+            <label><i class="fa-solid fa-hashtag"></i> Número da Conta</label>
+            <input type="text" id="enc-conta" placeholder="Ex: 12345-6" autocomplete="off" />
+          </div>
+          <button class="btn btn-danger" id="btn-encerrar">
+            <i class="fa-solid fa-circle-xmark"></i> Encerrar Conta
+          </button>
+        </div>
+      </section>
+
+      <!-- ============================
+           SECTION: LISTAR
+      ============================= -->
+      <section class="section" id="section-listar">
+        <div class="section-header">
+          <h1>Listar Clientes</h1>
+          <p>Todos os clientes cadastrados no sistema</p>
+        </div>
+
+        <div class="table-toolbar">
+          <div class="search-group">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="search-input" placeholder="Buscar por nome ou conta..." />
+          </div>
+          <div class="toolbar-right">
+            <select id="filter-status" class="select-filter">
+              <option value="todos">Todos</option>
+              <option value="ativa">Ativas</option>
+              <option value="inativa">Inativas</option>
+            </select>
+            <button class="btn btn-outline" id="btn-export">
+              <i class="fa-solid fa-file-csv"></i> Exportar CSV
+            </button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="data-table" id="clientsTable">
+            <thead>
+              <tr>
+                <th data-col="conta" class="sortable">Conta <i class="fa-solid fa-sort"></i></th>
+                <th data-col="nome" class="sortable">Cliente <i class="fa-solid fa-sort"></i></th>
+                <th data-col="saldo" class="sortable">Saldo <i class="fa-solid fa-sort"></i></th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+          <div class="table-empty hidden" id="tableEmpty">
+            <i class="fa-solid fa-inbox"></i>
+            <p>Nenhum cliente encontrado</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ===== MODAL DE CONFIRMAÇÃO ===== -->
+  <div class="modal-overlay hidden" id="modal">
+    <div class="modal">
+      <div class="modal-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+      <h3 id="modal-title">Confirmar ação</h3>
+      <p id="modal-body">Tem certeza que deseja continuar?</p>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="modal-cancel">Cancelar</button>
+        <button class="btn btn-danger" id="modal-confirm">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TOAST ===== -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
