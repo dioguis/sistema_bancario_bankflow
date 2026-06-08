@@ -1,4 +1,4 @@
-# 💳 Sistema Bancário Web
+# 💳 BankFlow
 
 Sistema de gerenciamento de contas bancárias desenvolvido com HTML, CSS e JavaScript puro, com foco em uma interface moderna, intuitiva e responsiva.
 
