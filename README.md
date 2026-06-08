@@ -6,7 +6,7 @@ Sistema de gerenciamento de contas bancárias desenvolvido com HTML, CSS e JavaS
 
 Acesse a aplicação online:
 
-👉 https://dioguis.github.io/sistema_bancario_dioguis/
+👉 https://dioguis.github.io/sistema_bancario_bankflow/
 
 ## 📋 Funcionalidades
 
