@@ -30,13 +30,75 @@ function saveClients() {
 /** Load clients from localStorage on startup */
 function loadClients() {
   const raw = localStorage.getItem(STORAGE_KEY);
+
   if (raw) {
     try {
       clients = JSON.parse(raw);
+      return;
     } catch {
       clients = [];
     }
   }
+
+  // Dados iniciais de demonstração
+  clients = [
+    {
+      conta: '193891-0',
+      nome: 'Ariana Grande',
+      saldo: 123028401,
+      status: 'ativa'
+    },
+    {
+      conta: '039892-1',
+      nome: 'Katy Perry',
+      saldo: 9908902883,
+      status: 'ativa'
+    },
+    {
+      conta: '138109-1',
+      nome: 'Anitta',
+      saldo: 1000,
+      status: 'ativa'
+    },
+    {
+      conta: '834482-1',
+      nome: 'Sabrina Carpenter',
+      saldo: 2493722,
+      status: 'ativa'
+    },
+    {
+      conta: '2170731-2',
+      nome: 'Chappell Roan',
+      saldo: 9928740,
+      status: 'ativa'
+    },
+    {
+      conta: '139031-1',
+      nome: 'Seok Matthew',
+      saldo: 123456,
+      status: 'ativa'
+    },
+    {
+      conta: '989902-2',
+      nome: 'Sunoo',
+      saldo: 543211,
+      status: 'ativa'
+    },
+    {
+      conta: '56789-1',
+      nome: 'Yeojin',
+      saldo: 12345,
+      status: 'ativa'
+    },
+    {
+      conta: '76543-2',
+      nome: 'Soojin',
+      saldo: 5600,
+      status: 'ativa'
+    }
+  ];
+
+  saveClients();
 }
 
 // ── 3. NAVIGATION ─────────────────────────────────────
